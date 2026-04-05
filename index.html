@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Kolin AI</title>
+    <style>
+        /* =========================================
+           RESET & VARIABLES
+           ========================================= */
+        :root {
+            --bg-color: #0a0a0a;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent-primary: #8a2be2; /* Неоновый фиолетовый */
+            --accent-secondary: #00d4ff; /* Неоновый голубой */
+            --spotify-green: #1DB954;
+            
+            --complexity-high: #ff4500;
+            --complexity-med: #ffa500;
+            --complexity-low: #32cd32;
+            --status-dead: #696969;
+            --status-live: #00ff7f;
+
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --transition-speed: 0.5s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* =========================================
+           SECTION 1: HERO (LANDING)
+           ========================================= */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* Виджет внизу */
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ФОНОВОЕ ИЗОБРАЖЕНИЕ */
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            /* Затемнение для читаемости */
+            filter: brightness(0.6); 
+            
+            /* 
+               ВАЖНО: Изображение для ПК 
+               Если изображения нет, будет использоваться серый фон
+            */
+            background-image: url('IMG_Kept_PC.jpg'); 
+        }
+
+        /* Медиа-запрос для мобильного фона (вертикальное фото) */
+        @media (max-width: 768px) {
+            .hero-bg {
+                background-image: url('IMG_20260106_165602_427.jpg');
+            }
+        }
+
+        /* SPOTIFY WIDGET */
+        .spotify-widget {
+            margin-bottom: 40px;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 300px;
+            max-width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: floatWidget 6s ease-in-out infinite;
+        }
+
+        .spotify-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--spotify-green);
+            flex-shrink: 0;
+        }
+
+        .track-info {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .track-title {
+            font-weight: 700;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        .track-artist {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+            white-space: nowrap;
+        }
+
+        /* Анимация смены текста */
+        .fade-text {
+            animation: textFade 0.5s ease-in-out;
+        }
+
+        @keyframes textFade {
+            0% { opacity: 0; transform: translateY(5px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatWidget {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Стрелка вниз */
+        .scroll-down {
+            position: absolute;
+            bottom: 10px;
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        /* =========================================
+           SECTION 2: PORTFOLIO
+           ========================================= */
+        .portfolio {
+            min-height: 100vh;
+            padding: 80px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(to bottom, #0a0a0a, #1a1a1a);
+            
+            /* Скрыто до скролла */
+            opacity: 0; 
+            transform: translateY(100px);
+            transition: opacity 1s ease-out, transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .portfolio.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            font-family: 'Courier New', monospace; /* Техно-стиль */
+            margin-bottom: 60px;
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+        }
+
+        /* CAROUSEL WRAPPER */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 500px; /* Фиксированная высота для предотвращения скачков */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+        }
+
+        /* CARD STYLES */
+        .project-card {
+            width: 90%;
+            max-width: 500px; /* Крупный куб */
+            height: 300px; /* Начальная высота */
+            background: rgba(30, 30, 30, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        /* HOVER EFFECT: OPENING THE BOX */
+        .project-card:hover, .project-card.active-tap {
+            height: 450px; /* Увеличиваем высоту */
+            background: rgba(40, 40, 40, 0.9);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
+            transform: scale(1.02);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .project-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Colors for badges */
+        .complexity-high { background: rgba(255, 69, 0, 0.2); color: var(--complexity-high); border: 1px solid var(--complexity-high); }
+        .complexity-med { background: rgba(255, 165, 0, 0.2); color: var(--complexity-med); border: 1px solid var(--complexity-med); }
+        .complexity-low { background: rgba(50, 205, 50, 0.2); color: var(--complexity-low); border: 1px solid var(--complexity-low); }
+        
+        .status-dead { background: rgba(105, 105, 105, 0.2); color: var(--status-dead); border: 1px solid var(--status-dead); }
+        .status-live { background: rgba(0, 255, 127, 0.2); color: var(--status-live); border: 1px solid var(--status-live); }
+
+        /* Hidden Content */
+        .card-body {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            transition-delay: 0.1s;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* Show content on hover/tap */
+        .project-card:hover .card-body, .project-card.active-tap .card-body {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-body h4 {
+            margin-top: 15px;
+            margin-bottom: 5px;
+            color: var(--accent-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .card-body p, .card-body ul {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #d0d0d0;
+        }
+        
+        .card-body ul { padding-left: 20px; }
+
+        /* ANIMATION CLASSES FOR CAROUSEL SWAP */
+        .slide-out {
+            animation: slideOutLeft 0.5s forwards;
+        }
+        
+        .slide-in {
+            animation: slideInRight 0.5s forwards;
+        }
+
+        @keyframes slideOutLeft {
+            from { transform: translateX(0) scale(1); opacity: 1; }
+            to { transform: translateX(-100px) scale(0.9); opacity: 0; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100px) scale(0.9); opacity: 0; }
+            to { transform: translateX(0) scale(1); opacity: 1; }
+        }
+
+        /* CONTROLS */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: 0.3s;
+            z-index: 10;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--accent-primary);
+            background: rgba(138, 43, 226, 0.1);
+        }
+
+        .prev-btn { left: 0; }
+        .next-btn { right: 0; }
+
+        /* Custom Scrollbar for card body */
+        .card-body::-webkit-scrollbar { width: 4px; }
+        .card-body::-webkit-scrollbar-thumb { background: var(--accent-primary); border-radius: 2px; }
+
+        /* =========================================
+           MOBILE ADAPTATION
+           ========================================= */
+        @media (max-width: 768px) {
+            .nav-btn { display: none; } /* Скрываем кнопки, используем свайп */
+            
+            .project-card {
+                width: 100%;
+                height: 350px; /* Чуть выше на мобильных сразу */
+            }
+            
+            .project-card:hover, .project-card.active-tap {
+                height: 500px; /* Почти весь экран */
+            }
+            
+            .section-title { font-size: 2rem; }
+            .carousel-container { height: 550px; padding: 0 10px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- SECTION 1: HERO -->
+    <header class="hero">
+        <div class="hero-bg"></div>
+        
+        <!-- Динамический виджет Spotify -->
+        <div class="spotify-widget">
+            <svg class="spotify-icon" viewBox="0 0 24 24">
+                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+            </svg>
+            <div class="track-info" id="track-info">
+                <span class="track-title">Loading...</span>
+                <span class="track-artist">Connecting...</span>
+            </div>
+        </div>
+
+        <div class="scroll-down" onclick="scrollToPortfolio()">↓</div>
+    </header>
+
+    <!-- SECTION 2: PORTFOLIO -->
+    <section class="portfolio" id="portfolio">
+        <h2 class="section-title">Portfolio</h2>
+        <h3 class="section-subtitle">Kolin AI</h3>
+
+        <div class="carousel-container" id="carousel-area">
+            <button class="nav-btn prev-btn" id="btn-prev">❮</button>
+            
+            <!-- Карточка проекта (Контент меняется через JS) -->
+            <div class="project-card" id="card">
+                <div class="card-header">
+                    <div class="project-title" id="p-title">Project Name</div>
+                    <div class="badges" id="p-badges">
+                        <!-- Сюда вставляются бейджи -->
+                    </div>
+                </div>
+                <!-- Скрытое описание -->
+                <div class="card-body" id="p-desc">
+                    <!-- HTML описание -->
+                </div>
+            </div>
+
+            <button class="nav-btn next-btn" id="btn-next">❯</button>
+        </div>
+    </section>
+
+    <script>
+        /* =========================================
+           DATA SOURCE
+           ========================================= */
+        
+        // 1. SPOTIFY DATA (Плейлист)
+        const spotifyTracks = [
+            { title: "Midnight City", artist: "M83" },
+            { title: "Starboy", artist: "The Weeknd, Daft Punk" },
+            { title: "Resonance", artist: "Home" },
+            { title: "After Dark", artist: "Mr. Kitty" },
+            { title: "Nightcall", artist: "Kavinsky" },
+            { title: "Instant Crush", artist: "Daft Punk" }
+        ];
+
+        // 2. PORTFOLIO DATA
+        const projects = [
+            {
+                id: 1,
+                title: "Kolin AI",
+                complexity: "Высокая",
+                complexityClass: "complexity-high",
+                status: "Разработка прекращена",
+                statusClass: "status-dead",
+                description: `
+                    <p>Многофункциональный ИИ-ассистент, созданный для автоматизации сложных задач.</p>
+                    <h4>Основные возможности</h4>
+                    <ul>
+                        <li>Обработка естественного языка.</li>
+                        <li>Интеграция с внешними API.</li>
+                    </ul>
+                    <h4>Технологический стек</h4>
+                    <p>Python, Neural Networks, WebSocket.</p>
+                    <h4>Безопасность</h4>
+                    <p>Полное шифрование данных и надежная архитектура (Closed Source).</p>
+                `
+            },
+            {
+                id: 2,
+                title: "Rickroll Bot",
+                complexity: "Низкая",
+                complexityClass: "complexity-low",
+                status: "Разработка прекращена",
+                statusClass: "status-dead",
+                description: `
+                    <p>Telegram-бот с открытым исходным кодом для пранков и развлечений.</p>
+                    <h4>Функционал</h4>
+                    <p>Мгновенная отправка Rickroll видео по триггер-команде.</p>
+                    <h4>Open Source</h4>
+                    <p>Код доступен на GitHub. Использует Telegram Bot API.</p>
+                `
+            },
+            {
+                id: 3,
+                title: "Spotify Hotkeys",
+                complexity: "Средняя",
+                complexityClass: "complexity-med",
+                status: "В разработке",
+                statusClass: "status-live",
+                description: `
+                    <p>Глобальное десктопное приложение для управления музыкой.</p>
+                    <h4>Проблема</h4>
+                    <p>Неудобное переключение треков во время игры или работы в полноэкранном режиме.</p>
+                    <h4>Решение</h4>
+                    <p>Глобальные хоткеи работают поверх всех окон. Пауза, Play, Next/Prev без открытия окна Spotify.</p>
+                `
+            }
+        ];
+
+        /* =========================================
+           SPOTIFY WIDGET LOGIC
+           ========================================= */
+        const trackTitleEl = document.querySelector('.track-title');
+        const trackArtistEl = document.querySelector('.track-artist');
+        const trackContainer = document.getElementById('track-info');
+
+        function updateSpotifyWidget() {
+            // Fade Out
+            trackContainer.style.opacity = '0';
+            
+            setTimeout(() => {
+                // Change Data (Random)
+                const randomTrack = spotifyTracks[Math.floor(Math.random() * spotifyTracks.length)];
+                trackTitleEl.innerText = randomTrack.title;
+                trackArtistEl.innerText = randomTrack.artist;
+                
+                // Fade In + Animation Class
+                trackContainer.style.opacity = '1';
+                trackTitleEl.classList.remove('fade-text');
+                void trackTitleEl.offsetWidth; // trigger reflow
+                trackTitleEl.classList.add('fade-text');
+            }, 500); // Wait for fade out
+        }
+
+        // Init & Interval (5-7 sec)
+        updateSpotifyWidget();
+        setInterval(updateSpotifyWidget, 6000); 
+
+        /* =========================================
+           SCROLL ANIMATION (OBSERVER)
+           ========================================= */
+        const portfolioSection = document.getElementById('portfolio');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    portfolioSection.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        observer.observe(portfolioSection);
+
+        function scrollToPortfolio() {
+            portfolioSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        /* =========================================
+           CAROUSEL LOGIC
+           ========================================= */
+        let currentIdx = 0;
+        const cardEl = document.getElementById('card');
+        const pTitle = document.getElementById('p-title');
+        const pBadges = document.getElementById('p-badges');
+        const pDesc = document.getElementById('p-desc');
+        let autoRotateTimer;
+
+        // Render init
+        renderCard(0);
+
+        function renderCard(index) {
+            const project = projects[index];
+            pTitle.innerText = project.title;
+            
+            // Generate Badges
+            pBadges.innerHTML = `
+                <span class="badge ${project.complexityClass}">Сложность: ${project.complexity}</span>
+                <span class="badge ${project.statusClass}">${project.status}</span>
+            `;
+            
+            pDesc.innerHTML = project.description;
+        }
+
+        function switchProject(direction) {
+            // 1. Animation Out
+            cardEl.classList.remove('slide-in');
+            cardEl.classList.add('slide-out');
+
+            setTimeout(() => {
+                // 2. Logic
+                if (direction === 'next') {
+                    currentIdx = (currentIdx + 1) % projects.length;
+                } else {
+                    currentIdx = (currentIdx - 1 + projects.length) % projects.length;
+                }
+                
+                // 3. Render New Data
+                renderCard(currentIdx);
+
+                // 4. Animation In
+                cardEl.classList.remove('slide-out');
+                cardEl.classList.add('slide-in');
+
+            }, 500); // Sync with CSS transition time
+
+            resetTimer();
+        }
+
+        // Auto Rotation
+        function startTimer() {
+            autoRotateTimer = setInterval(() => {
+                switchProject('next');
+            }, 5000);
+        }
+
+        function resetTimer() {
+            clearInterval(autoRotateTimer);
+            startTimer();
+        }
+
+        // Controls
+        document.getElementById('btn-next').addEventListener('click', () => switchProject('next'));
+        document.getElementById('btn-prev').addEventListener('click', () => switchProject('prev'));
+
+        // Mobile Swipe Handling
+        let touchStartX = 0;
+        const carouselArea = document.getElementById('carousel-area');
+
+        carouselArea.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        carouselArea.addEventListener('touchend', e => {
+            const touchEndX = e.changedTouches[0].screenX;
+            handleSwipe(touchStartX, touchEndX);
+        });
+
+        function handleSwipe(start, end) {
+            if (start - end > 50) switchProject('next'); // Swipe Left
+            if (end - start > 50) switchProject('prev'); // Swipe Right
+        }
+
+        // Mobile Tap to Expand
+        cardEl.addEventListener('click', () => {
+            // Toggle active class for mobile specific interactions if needed
+            cardEl.classList.toggle('active-tap');
+        });
+
+        startTimer();
+
+    </script>
+</body>
+</html>
