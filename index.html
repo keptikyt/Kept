@@ -1,634 +1,891 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Kolin AI</title>
-    <style>
-        /* =========================================
-           RESET & VARIABLES
-           ========================================= */
-        :root {
-            --bg-color: #0a0a0a;
-            --text-main: #ffffff;
-            --text-muted: #a0a0a0;
-            --accent-primary: #8a2be2; /* Неоновый фиолетовый */
-            --accent-secondary: #00d4ff; /* Неоновый голубой */
-            --spotify-green: #1DB954;
-            
-            --complexity-high: #ff4500;
-            --complexity-med: #ffa500;
-            --complexity-low: #32cd32;
-            --status-dead: #696969;
-            --status-live: #00ff7f;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kept — Software & Hardware Developer</title>
+  <meta name="description" content="Портфолио и услуги разработчика Kept: Telegram-боты, софт на C#, Kotlin, Java, Python, проектирование PCB, настройка серверов и сетей.">
+  <meta name="keywords" content="Kept, Telegram боты, разработка ПО, Python, Kotlin, Java, C#, PCB проектирование, настройка серверов">
+  
+  <!-- Open Graph / Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Kept — Developer Portfolio & Services">
+  <meta property="og:description" content="Разработка проектов, Telegram-ботов, десктопного ПО, проектирование PCB и настройка серверов.">
+  <meta property="og:image" content="photo_2026-10-03_13-45-54.jpg">
 
-            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            --transition-speed: 0.5s;
-        }
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: var(--font-main);
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-
-        /* =========================================
-           SECTION 1: HERO (LANDING)
-           ========================================= */
-        .hero {
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end; /* Виджет внизу */
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* ФОНОВОЕ ИЗОБРАЖЕНИЕ */
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-size: cover;
-            background-position: center;
-            /* Затемнение для читаемости */
-            filter: brightness(0.6); 
-            
-            /* 
-               ВАЖНО: Изображение для ПК 
-               Если изображения нет, будет использоваться серый фон
-            */
-            background-image: url('IMG_Kept_PC.jpg'); 
-        }
-
-        /* Медиа-запрос для мобильного фона (вертикальное фото) */
-        @media (max-width: 768px) {
-            .hero-bg {
-                background-image: url('IMG_20260106_165602_427.jpg');
-            }
-        }
-
-        /* SPOTIFY WIDGET */
-        .spotify-widget {
-            margin-bottom: 40px;
-            padding: 15px 30px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            min-width: 300px;
-            max-width: 90%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            animation: floatWidget 6s ease-in-out infinite;
-        }
-
-        .spotify-icon {
-            width: 24px;
-            height: 24px;
-            fill: var(--spotify-green);
-            flex-shrink: 0;
-        }
-
-        .track-info {
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .track-title {
-            font-weight: 700;
-            font-size: 1rem;
-            white-space: nowrap;
-        }
-
-        .track-artist {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.8);
-            white-space: nowrap;
-        }
-
-        /* Анимация смены текста */
-        .fade-text {
-            animation: textFade 0.5s ease-in-out;
-        }
-
-        @keyframes textFade {
-            0% { opacity: 0; transform: translateY(5px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes floatWidget {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Стрелка вниз */
-        .scroll-down {
-            position: absolute;
-            bottom: 10px;
-            font-size: 2rem;
-            animation: bounce 2s infinite;
-            cursor: pointer;
-            opacity: 0.7;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-10px);}
-            60% {transform: translateY(-5px);}
-        }
-
-        /* =========================================
-           SECTION 2: PORTFOLIO
-           ========================================= */
-        .portfolio {
-            min-height: 100vh;
-            padding: 80px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: linear-gradient(to bottom, #0a0a0a, #1a1a1a);
-            
-            /* Скрыто до скролла */
-            opacity: 0; 
-            transform: translateY(100px);
-            transition: opacity 1s ease-out, transform 1s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .portfolio.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .section-title {
-            font-size: 3rem;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #fff, var(--text-muted));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .section-subtitle {
-            font-size: 1.5rem;
-            color: var(--accent-primary);
-            font-family: 'Courier New', monospace; /* Техно-стиль */
-            margin-bottom: 60px;
-            text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
-        }
-
-        /* CAROUSEL WRAPPER */
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            height: 500px; /* Фиксированная высота для предотвращения скачков */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            perspective: 1000px;
-        }
-
-        /* CARD STYLES */
-        .project-card {
-            width: 90%;
-            max-width: 500px; /* Крупный куб */
-            height: 300px; /* Начальная высота */
-            background: rgba(30, 30, 30, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 30px;
-            position: relative;
-            cursor: pointer;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-
-        /* HOVER EFFECT: OPENING THE BOX */
-        .project-card:hover, .project-card.active-tap {
-            height: 450px; /* Увеличиваем высоту */
-            background: rgba(40, 40, 40, 0.9);
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
-            transform: scale(1.02);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .project-title {
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-
-        .badges {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            padding: 5px 10px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        /* Colors for badges */
-        .complexity-high { background: rgba(255, 69, 0, 0.2); color: var(--complexity-high); border: 1px solid var(--complexity-high); }
-        .complexity-med { background: rgba(255, 165, 0, 0.2); color: var(--complexity-med); border: 1px solid var(--complexity-med); }
-        .complexity-low { background: rgba(50, 205, 50, 0.2); color: var(--complexity-low); border: 1px solid var(--complexity-low); }
-        
-        .status-dead { background: rgba(105, 105, 105, 0.2); color: var(--status-dead); border: 1px solid var(--status-dead); }
-        .status-live { background: rgba(0, 255, 127, 0.2); color: var(--status-live); border: 1px solid var(--status-live); }
-
-        /* Hidden Content */
-        .card-body {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.4s ease;
-            transition-delay: 0.1s;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        /* Show content on hover/tap */
-        .project-card:hover .card-body, .project-card.active-tap .card-body {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .card-body h4 {
-            margin-top: 15px;
-            margin-bottom: 5px;
-            color: var(--accent-secondary);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-
-        .card-body p, .card-body ul {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: #d0d0d0;
-        }
-        
-        .card-body ul { padding-left: 20px; }
-
-        /* ANIMATION CLASSES FOR CAROUSEL SWAP */
-        .slide-out {
-            animation: slideOutLeft 0.5s forwards;
-        }
-        
-        .slide-in {
-            animation: slideInRight 0.5s forwards;
-        }
-
-        @keyframes slideOutLeft {
-            from { transform: translateX(0) scale(1); opacity: 1; }
-            to { transform: translateX(-100px) scale(0.9); opacity: 0; }
-        }
-
-        @keyframes slideInRight {
-            from { transform: translateX(100px) scale(0.9); opacity: 0; }
-            to { transform: translateX(0) scale(1); opacity: 1; }
-        }
-
-        /* CONTROLS */
-        .nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: transparent;
-            border: 2px solid rgba(255,255,255,0.2);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            transition: 0.3s;
-            z-index: 10;
-        }
-
-        .nav-btn:hover {
-            border-color: var(--accent-primary);
-            background: rgba(138, 43, 226, 0.1);
-        }
-
-        .prev-btn { left: 0; }
-        .next-btn { right: 0; }
-
-        /* Custom Scrollbar for card body */
-        .card-body::-webkit-scrollbar { width: 4px; }
-        .card-body::-webkit-scrollbar-thumb { background: var(--accent-primary); border-radius: 2px; }
-
-        /* =========================================
-           MOBILE ADAPTATION
-           ========================================= */
-        @media (max-width: 768px) {
-            .nav-btn { display: none; } /* Скрываем кнопки, используем свайп */
-            
-            .project-card {
-                width: 100%;
-                height: 350px; /* Чуть выше на мобильных сразу */
-            }
-            
-            .project-card:hover, .project-card.active-tap {
-                height: 500px; /* Почти весь экран */
-            }
-            
-            .section-title { font-size: 2rem; }
-            .carousel-container { height: 550px; padding: 0 10px; }
-        }
-
-    </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- SECTION 1: HERO -->
-    <header class="hero">
-        <div class="hero-bg"></div>
+  <!-- Sticky Navigation Bar -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-symbol">&lt;/&gt;</span>
+        <span class="logo-text">KEPT</span>
+        <span class="status-indicator" title="Status: Available">
+          <span class="status-dot"></span>
+          <span class="status-text" data-i18n="nav_status">Available</span>
+        </span>
+      </a>
+
+      <nav class="nav-menu" id="nav-menu">
+        <a href="#about" class="nav-link" data-i18n="nav_about">Обо мне</a>
+        <a href="#skills" class="nav-link" data-i18n="nav_skills">Стек</a>
+        <a href="#services" class="nav-link" data-i18n="nav_services">Услуги</a>
+        <a href="#calculator" class="nav-link" data-i18n="nav_calculator">Калькулятор</a>
+        <a href="#dm-rules" class="nav-link" data-i18n="nav_rules">Правила ЛС</a>
+        <a href="#friends" class="nav-link" data-i18n="nav_friends">Объединение</a>
+        <a href="#contacts" class="nav-link" data-i18n="nav_contacts">Контакты</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Language Switcher -->
+        <div class="lang-switch-box" id="lang-switch-box">
+          <button type="button" class="lang-btn active" data-lang="ru">RU</button>
+          <span class="lang-divider">/</span>
+          <button type="button" class="lang-btn" data-lang="en">EN</button>
+        </div>
+
+        <a href="https://t.me/Kept_DM" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21.5 2L2 9.5l7 3.5 3.5 7 9-18z"/>
+          </svg>
+          <span data-i18n="nav_cta">Написать в TG</span>
+        </a>
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Открыть меню">
+          <span class="hamburger"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="container hero-container">
         
-        <!-- Динамический виджет Spotify -->
-        <div class="spotify-widget">
-            <svg class="spotify-icon" viewBox="0 0 24 24">
-                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-            </svg>
-            <div class="track-info" id="track-info">
-                <span class="track-title">Loading...</span>
-                <span class="track-artist">Connecting...</span>
+        <!-- Left Column: Bio & Intro -->
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="badge-icon">⚡</span>
+            <span data-i18n="hero_badge">Software & Hardware Developer</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span data-i18n="hero_greeting">Привет, я</span> <span class="gradient-text">Kept</span>
+          </h1>
+
+          <p class="hero-subtitle" data-i18n="hero_subtitle">
+            Занимаюсь разработкой сложных программных решений, созданием умных Telegram-ботов, проектированием печатных плат (PCB) и администрированием серверов и сетевого оборудования.
+          </p>
+
+          <!-- Quick Bio Highlights -->
+          <div class="hero-highlights">
+            <div class="highlight-item">
+              <span class="h-icon">📍</span>
+              <div>
+                <div class="h-label" data-i18n="h_label_loc">Локация</div>
+                <div class="h-value" data-i18n="h_val_loc">РФ</div>
+              </div>
             </div>
+            <div class="highlight-item">
+              <span class="h-icon">💻</span>
+              <div>
+                <div class="h-label" data-i18n="h_label_stack">Стек</div>
+                <div class="h-value">Python, Kotlin, Java, C#</div>
+              </div>
+            </div>
+            <div class="highlight-item">
+              <span class="h-icon">🌐</span>
+              <div>
+                <div class="h-label" data-i18n="h_label_team">Объединение</div>
+                <div class="h-value">Citoz</div>
+              </div>
+            </div>
+            <div class="highlight-item">
+              <span class="h-icon">⏱</span>
+              <div>
+                <div class="h-label" data-i18n="h_label_rate">Почасовая ставка</div>
+                <div class="h-value" data-i18n="h_val_rate">$15 / час</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Buttons -->
+          <div class="hero-buttons">
+            <a href="#services" class="btn btn-primary">
+              <span data-i18n="hero_btn_pricing">Прайс-лист и услуги</span>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+
+            <a href="https://t.me/Kept_DM" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+              <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+              </svg>
+              <span data-i18n="hero_btn_tg">ЛС @Kept_DM</span>
+            </a>
+
+            <button class="btn btn-glass copy-btn" data-copy="Kept_DM" title="Скопировать никнейм">
+              <svg class="icon copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <span class="copy-text" data-i18n="hero_btn_copy">Копировать TG</span>
+            </button>
+          </div>
         </div>
 
-        <div class="scroll-down" onclick="scrollToPortfolio()">↓</div>
-    </header>
-
-    <!-- SECTION 2: PORTFOLIO -->
-    <section class="portfolio" id="portfolio">
-        <h2 class="section-title">Portfolio</h2>
-        <h3 class="section-subtitle">Kolin AI</h3>
-
-        <div class="carousel-container" id="carousel-area">
-            <button class="nav-btn prev-btn" id="btn-prev">❮</button>
-            
-            <!-- Карточка проекта (Контент меняется через JS) -->
-            <div class="project-card" id="card">
-                <div class="card-header">
-                    <div class="project-title" id="p-title">Project Name</div>
-                    <div class="badges" id="p-badges">
-                        <!-- Сюда вставляются бейджи -->
-                    </div>
+        <!-- Right Column: Main Photo Showcase -->
+        <div class="hero-visual">
+          <div class="photo-card-wrapper">
+            <div class="photo-glow"></div>
+            <div class="photo-card" id="main-photo-trigger">
+              <img src="photo_2026-10-03_13-45-54.jpg" alt="Kept - Главное фото профиля" class="hero-photo" id="hero-img">
+              <div class="photo-overlay">
+                <div class="photo-top-tags">
+                  <span class="photo-badge" data-i18n="photo_loc">📍 РФ</span>
+                  <span class="photo-badge badge-glow" data-i18n="photo_status">Active</span>
                 </div>
-                <!-- Скрытое описание -->
-                <div class="card-body" id="p-desc">
-                    <!-- HTML описание -->
+                <div class="photo-bottom-info">
+                  <div class="photo-author">
+                    <span class="author-name">Kept</span>
+                    <span class="author-title" data-i18n="photo_role">Engineer & Creator</span>
+                  </div>
+                  <div class="photo-zoom-hint">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                    </svg>
+                    <span data-i18n="photo_zoom">Открыть фото</span>
+                  </div>
                 </div>
+              </div>
             </div>
-
-            <button class="nav-btn next-btn" id="btn-next">❯</button>
+            <div class="photo-reflection"></div>
+          </div>
         </div>
+
+      </div>
     </section>
 
-    <script>
-        /* =========================================
-           DATA SOURCE
-           ========================================= */
-        
-        // 1. SPOTIFY DATA (Плейлист)
-        const spotifyTracks = [
-            { title: "Midnight City", artist: "M83" },
-            { title: "Starboy", artist: "The Weeknd, Daft Punk" },
-            { title: "Resonance", artist: "Home" },
-            { title: "After Dark", artist: "Mr. Kitty" },
-            { title: "Nightcall", artist: "Kavinsky" },
-            { title: "Instant Crush", artist: "Daft Punk" }
-        ];
+    <!-- About & Details Section -->
+    <section class="section about-section" id="about">
+      <div class="container">
+        <div class="section-header text-center">
+          <div class="section-tag" data-i18n="about_tag">// ИНФОРМАЦИЯ ОБО МНЕ</div>
+          <h2 class="section-title" data-i18n="about_title">Биография и Специализация</h2>
+          <p class="section-desc" data-i18n="about_desc">Краткая сводка обо мне, ключевых навыках, владении языками и профессиональном бэкграунде.</p>
+        </div>
 
-        // 2. PORTFOLIO DATA
-        const projects = [
-            {
-                id: 1,
-                title: "Kolin AI",
-                complexity: "Высокая",
-                complexityClass: "complexity-high",
-                status: "Разработка прекращена",
-                statusClass: "status-dead",
-                description: `
-                    <p>Многофункциональный ИИ-ассистент, созданный для автоматизации сложных задач.</p>
-                    <h4>Основные возможности</h4>
-                    <ul>
-                        <li>Обработка естественного языка.</li>
-                        <li>Интеграция с внешними API.</li>
-                    </ul>
-                    <h4>Технологический стек</h4>
-                    <p>Python, Neural Networks, WebSocket.</p>
-                    <h4>Безопасность</h4>
-                    <p>Полное шифрование данных и надежная архитектура (Closed Source).</p>
-                `
-            },
-            {
-                id: 2,
-                title: "Rickroll Bot",
-                complexity: "Низкая",
-                complexityClass: "complexity-low",
-                status: "Разработка прекращена",
-                statusClass: "status-dead",
-                description: `
-                    <p>Telegram-бот с открытым исходным кодом для пранков и развлечений.</p>
-                    <h4>Функционал</h4>
-                    <p>Мгновенная отправка Rickroll видео по триггер-команде.</p>
-                    <h4>Open Source</h4>
-                    <p>Код доступен на GitHub. Использует Telegram Bot API.</p>
-                `
-            },
-            {
-                id: 3,
-                title: "Spotify Hotkeys",
-                complexity: "Средняя",
-                complexityClass: "complexity-med",
-                status: "В разработке",
-                statusClass: "status-live",
-                description: `
-                    <p>Глобальное десктопное приложение для управления музыкой.</p>
-                    <h4>Проблема</h4>
-                    <p>Неудобное переключение треков во время игры или работы в полноэкранном режиме.</p>
-                    <h4>Решение</h4>
-                    <p>Глобальные хоткеи работают поверх всех окон. Пауза, Play, Next/Prev без открытия окна Spotify.</p>
-                `
-            }
-        ];
+        <div class="about-grid">
+          <!-- Card 1: Identity & Location -->
+          <div class="glass-card about-card">
+            <div class="card-icon-box">
+              <span class="card-emoji">👤</span>
+            </div>
+            <h3 class="card-title" data-i18n="card_profile_title">Профиль</h3>
+            <ul class="info-list">
+              <li>
+                <span class="info-label" data-i18n="info_nick_label">Псевдоним:</span>
+                <span class="info-value font-mono">Kept</span>
+              </li>
+              <li>
+                <span class="info-label" data-i18n="info_residence_label">Место жительства:</span>
+                <span class="info-value" data-i18n="info_residence_val">РФ 🇷🇺</span>
+              </li>
+              <li>
+                <span class="info-label" data-i18n="info_status_label">Статус:</span>
+                <span class="info-value tag-success" data-i18n="info_status_val">Готов к проектам</span>
+              </li>
+            </ul>
+          </div>
 
-        /* =========================================
-           SPOTIFY WIDGET LOGIC
-           ========================================= */
-        const trackTitleEl = document.querySelector('.track-title');
-        const trackArtistEl = document.querySelector('.track-artist');
-        const trackContainer = document.getElementById('track-info');
+          <!-- Card 2: Main Activities -->
+          <div class="glass-card about-card">
+            <div class="card-icon-box">
+              <span class="card-emoji">🛠</span>
+            </div>
+            <h3 class="card-title" data-i18n="card_act_title">Род деятельности</h3>
+            <ul class="activity-list">
+              <li>
+                <span class="check-icon">▹</span>
+                <span data-i18n="act_1"><strong>Разработка проектов:</strong> создание Telegram-ботов, десктопных утилит и комплексных систем автоматизации.</span>
+              </li>
+              <li>
+                <span class="check-icon">▹</span>
+                <span data-i18n="act_2"><strong>Проектирование PCB:</strong> разработка печатных плат под задачи микроэлектроники и кастомных устройств.</span>
+              </li>
+              <li>
+                <span class="check-icon">▹</span>
+                <span data-i18n="act_3"><strong>Сетевое оборудование и серверы:</strong> настройка маршрутизаторов, Linux/Windows серверов, VPN, DNS, безопасности.</span>
+              </li>
+            </ul>
+          </div>
 
-        function updateSpotifyWidget() {
-            // Fade Out
-            trackContainer.style.opacity = '0';
+          <!-- Card 3: Languages -->
+          <div class="glass-card about-card">
+            <div class="card-icon-box">
+              <span class="card-emoji">🗣</span>
+            </div>
+            <h3 class="card-title" data-i18n="card_lang_title">Языки общения</h3>
+            <div class="lang-bars">
+              <div class="lang-item">
+                <div class="lang-meta">
+                  <span class="lang-name" data-i18n="lang_ru_name">Русский</span>
+                  <span class="lang-level" data-i18n="lang_ru_lvl">Родной</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+              </div>
+              <div class="lang-item">
+                <div class="lang-meta">
+                  <span class="lang-name" data-i18n="lang_en_name">English</span>
+                  <span class="lang-level">A1 / A2 (Technical)</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 40%;"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Team / Collective -->
+          <div class="glass-card about-card">
+            <div class="card-icon-box">
+              <span class="card-emoji">🏢</span>
+            </div>
+            <h3 class="card-title" data-i18n="card_team_title">Объединение Citoz</h3>
+            <p class="card-text" data-i18n="card_team_desc">
+              Участник технологического объединения <strong>Citoz</strong>. Совместная работа над масштабными проектами и IT-решениями.
+            </p>
+            <div class="email-box">
+              <span class="email-icon">✉️</span>
+              <a href="mailto:citozteam@gmail.com" class="email-link font-mono">citozteam@gmail.com</a>
+              <button class="mini-copy-btn" data-copy="citozteam@gmail.com" title="Скопировать почту">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="section skills-section" id="skills">
+      <div class="container">
+        <div class="section-header text-center">
+          <div class="section-tag" data-i18n="skills_tag">// ТЕХНОЛОГИЧЕСКИЙ СТЕК</div>
+          <h2 class="section-title" data-i18n="skills_title">Языки программирования и инструменты</h2>
+          <p class="section-desc" data-i18n="skills_desc">Технологии, на которых я регулярно писал и пишу коммерческие и прикладные проекты.</p>
+        </div>
+
+        <div class="skills-grid">
+          <!-- Python -->
+          <div class="skill-card">
+            <div class="skill-header">
+              <div class="skill-logo py-color">🐍</div>
+              <div class="skill-meta">
+                <h4 class="skill-name">Python</h4>
+                <span class="skill-role">Bots, Scrapers, Automation</span>
+              </div>
+            </div>
+            <p class="skill-desc" data-i18n="skill_py_desc">Aiogram, Telethon, Pyrogram, парсинг данных, автоматизация процессов, интеграции через REST API и Google Sheets.</p>
+            <div class="skill-tags">
+              <span>Bots</span>
+              <span>Telethon</span>
+              <span>Pyrogram</span>
+              <span>Scraping</span>
+              <span>Asyncio</span>
+            </div>
+          </div>
+
+          <!-- C# -->
+          <div class="skill-card">
+            <div class="skill-header">
+              <div class="skill-logo cs-color">⚡</div>
+              <div class="skill-meta">
+                <h4 class="skill-name">C#</h4>
+                <span class="skill-role">.NET, Desktop Utilities, System API</span>
+              </div>
+            </div>
+            <p class="skill-desc" data-i18n="skill_cs_desc">Создание быстрых десктопных утилит под Windows, работа с WinAPI, системными хуками, горячими клавишами и фоновыми службами.</p>
+            <div class="skill-tags">
+              <span>.NET</span>
+              <span>WinAPI</span>
+              <span>Desktop</span>
+              <span>Utilities</span>
+              <span>Services</span>
+            </div>
+          </div>
+
+          <!-- Kotlin -->
+          <div class="skill-card">
+            <div class="skill-header">
+              <div class="skill-logo kt-color">📱</div>
+              <div class="skill-meta">
+                <h4 class="skill-name">Kotlin</h4>
+                <span class="skill-role">Modern JVM, Android, Coroutines</span>
+              </div>
+            </div>
+            <p class="skill-desc" data-i18n="skill_kt_desc">Современный лаконичный код, надежные сервисы, асинхронные корутины и гибкая архитектура приложений.</p>
+            <div class="skill-tags">
+              <span>JVM</span>
+              <span>Coroutines</span>
+              <span>Android/Desktop</span>
+              <span>Clean Code</span>
+            </div>
+          </div>
+
+          <!-- Java -->
+          <div class="skill-card">
+            <div class="skill-header">
+              <div class="skill-logo java-color">☕</div>
+              <div class="skill-meta">
+                <h4 class="skill-name">Java</h4>
+                <span class="skill-role">Backend, Enterprise, Core Apps</span>
+              </div>
+            </div>
+            <p class="skill-desc" data-i18n="skill_java_desc">Классическая разработка, ООП архитектура, кроссплатформенные утилиты, серверная логика и стабильность.</p>
+            <div class="skill-tags">
+              <span>Core Java</span>
+              <span>OOP</span>
+              <span>Multithreading</span>
+              <span>Cross-platform</span>
+            </div>
+          </div>
+
+          <!-- Hardware & PCB -->
+          <div class="skill-card">
+            <div class="skill-header">
+              <div class="skill-logo pcb-color">🔌</div>
+              <div class="skill-meta">
+                <h4 class="skill-name">PCB Design</h4>
+                <span class="skill-role" data-i18n="skill_pcb_role">Проектирование печатных плат</span>
+              </div>
+            </div>
+            <p class="skill-desc" data-i18n="skill_pcb_desc">Трассировка, принципиальные схемы, подбор компонентов, подготовка Gerber-файлов для производства электроники.</p>
+            <div class="skill-tags">
+              <span>Schematics</span>
+              <span>Routing</span>
+              <span>Gerber</span>
+              <span>Electronics</span>
+            </div>
+          </div>
+
+          <!-- Server & Network -->
+          <div class="skill-card">
+            <div class="skill-header">
+              <div class="skill-logo net-color">🖧</div>
+              <div class="skill-meta">
+                <h4 class="skill-name" data-i18n="skill_net_title">Сетевое оборудование</h4>
+                <span class="skill-role" data-i18n="skill_net_role">Серверы, маршрутизация, Linux</span>
+              </div>
+            </div>
+            <p class="skill-desc" data-i18n="skill_net_desc">Развертывание серверов, настройка маршрутизаторов, коммутаторов, VPN-туннелей, файрволов и мониторинга.</p>
+            <div class="skill-tags">
+              <span>Linux</span>
+              <span>Networking</span>
+              <span>Firewalls</span>
+              <span>VPN</span>
+              <span>SysAdmin</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services & Pricing Section -->
+    <section class="section services-section" id="services">
+      <div class="container">
+        <div class="section-header text-center">
+          <div class="section-tag" data-i18n="services_tag">// SERVICES & PRICING</div>
+          <h2 class="section-title" data-i18n="services_title">Услуги и Прайс-лист</h2>
+          <p class="section-desc" data-i18n="services_desc">Прозрачные фиксированные цены на разработку и понятные условия сотрудничества.</p>
+        </div>
+
+        <div class="pricing-grid">
+          
+          <!-- Category 1: Telegram Bots (Basic) -->
+          <div class="pricing-card">
+            <div class="card-badge">Python Bot</div>
+            <div class="pricing-header">
+              <div class="pricing-icon">🤖</div>
+              <h3 class="pricing-title">Basic Bot / Script</h3>
+              <p class="pricing-subtitle" data-i18n="p1_sub">Простые боты и скрипты для базовых задач бизнеса и личного пользования</p>
+            </div>
             
-            setTimeout(() => {
-                // Change Data (Random)
-                const randomTrack = spotifyTracks[Math.floor(Math.random() * spotifyTracks.length)];
-                trackTitleEl.innerText = randomTrack.title;
-                trackArtistEl.innerText = randomTrack.artist;
-                
-                // Fade In + Animation Class
-                trackContainer.style.opacity = '1';
-                trackTitleEl.classList.remove('fade-text');
-                void trackTitleEl.offsetWidth; // trigger reflow
-                trackTitleEl.classList.add('fade-text');
-            }, 500); // Wait for fade out
-        }
+            <div class="pricing-price">
+              <span class="price-from" data-i18n="price_from">от</span>
+              <span class="price-amount">$25</span>
+            </div>
 
-        // Init & Interval (5-7 sec)
-        updateSpotifyWidget();
-        setInterval(updateSpotifyWidget, 6000); 
+            <ul class="pricing-features">
+              <li><span class="tick">✔</span> <span data-i18n="p1_f1">Автоответчики и приветственные сценарии</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p1_f2">Захват лидов и форм обратной связи</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p1_f3">Базовые парсеры сайтов и каналов</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p1_f4">Интеграция с Google Sheets (Таблицами)</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p1_f5">Инструкция по запуску и настройке</span></li>
+            </ul>
 
-        /* =========================================
-           SCROLL ANIMATION (OBSERVER)
-           ========================================= */
-        const portfolioSection = document.getElementById('portfolio');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    portfolioSection.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.2 });
+            <div class="pricing-action">
+              <a href="https://t.me/Kept_DM?text=Привет,%20хочу%20заказать%20Basic%20Bot%20(от%20$25)" target="_blank" rel="noopener noreferrer" class="btn btn-block btn-outline order-action-btn" data-order-type="basic">
+                <span data-i18n="p_btn_click">Клик для заказа</span>
+              </a>
+            </div>
+          </div>
 
-        observer.observe(portfolioSection);
-
-        function scrollToPortfolio() {
-            portfolioSection.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        /* =========================================
-           CAROUSEL LOGIC
-           ========================================= */
-        let currentIdx = 0;
-        const cardEl = document.getElementById('card');
-        const pTitle = document.getElementById('p-title');
-        const pBadges = document.getElementById('p-badges');
-        const pDesc = document.getElementById('p-desc');
-        let autoRotateTimer;
-
-        // Render init
-        renderCard(0);
-
-        function renderCard(index) {
-            const project = projects[index];
-            pTitle.innerText = project.title;
+          <!-- Category 2: Telegram Bots (Intermediate) - FEATURED -->
+          <div class="pricing-card featured-card">
+            <div class="featured-ribbon" data-i18n="p_popular">Популярный выбор</div>
+            <div class="card-badge" data-i18n="p_recommended">Рекомендуем</div>
+            <div class="pricing-header">
+              <div class="pricing-icon">⚙️</div>
+              <h3 class="pricing-title">Intermediate Bot</h3>
+              <p class="pricing-subtitle" data-i18n="p2_sub">Функциональные боты с базой данных, оплатой и удобной панелью управления</p>
+            </div>
             
-            // Generate Badges
-            pBadges.innerHTML = `
-                <span class="badge ${project.complexityClass}">Сложность: ${project.complexity}</span>
-                <span class="badge ${project.statusClass}">${project.status}</span>
-            `;
+            <div class="pricing-price">
+              <span class="price-from" data-i18n="price_from">от</span>
+              <span class="price-amount">$75</span>
+            </div>
+
+            <ul class="pricing-features">
+              <li><span class="tick">✔</span> <span data-i18n="p2_f1">Базы данных (PostgreSQL / SQLite)</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p2_f2">Подключение платежных систем (CryptoPay, ЮKassa и др.)</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p2_f3">Удобная панель администратора для управления</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p2_f4">Интеграция со сторонними API и сервисами</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p2_f5">Рассылки, аналитика и статистика пользователей</span></li>
+            </ul>
+
+            <div class="pricing-action">
+              <a href="https://t.me/Kept_DM?text=Привет,%20хочу%20заказать%20Intermediate%20Bot%20(от%20$75)" target="_blank" rel="noopener noreferrer" class="btn btn-block btn-primary order-action-btn" data-order-type="intermediate">
+                <span data-i18n="p_btn_click">Клик для заказа</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Category 3: Advanced Systems -->
+          <div class="pricing-card">
+            <div class="card-badge">Advanced</div>
+            <div class="pricing-header">
+              <div class="pricing-icon">🚀</div>
+              <h3 class="pricing-title">Advanced Systems & Tools</h3>
+              <p class="pricing-subtitle" data-i18n="p3_sub">Высоконагруженные комплексы, клиентские скрипты и системы автоматизации</p>
+            </div>
             
-            pDesc.innerHTML = project.description;
-        }
+            <div class="pricing-price">
+              <span class="price-from" data-i18n="price_from">от</span>
+              <span class="price-amount">$180</span>
+            </div>
 
-        function switchProject(direction) {
-            // 1. Animation Out
-            cardEl.classList.remove('slide-in');
-            cardEl.classList.add('slide-out');
+            <ul class="pricing-features">
+              <li><span class="tick">✔</span> <span data-i18n="p3_f1">Многопоточные парсеры высокой скорости</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p3_f2">Скрипты на базе Telethon / Pyrogram (userbot)</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p3_f3">Комплексный софт для масштабной автоматизации</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p3_f4">Ротация прокси, обход капчи и ограничений</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p3_f5">Высокая отказоустойчивость и безопасность</span></li>
+            </ul>
 
-            setTimeout(() => {
-                // 2. Logic
-                if (direction === 'next') {
-                    currentIdx = (currentIdx + 1) % projects.length;
-                } else {
-                    currentIdx = (currentIdx - 1 + projects.length) % projects.length;
-                }
-                
-                // 3. Render New Data
-                renderCard(currentIdx);
+            <div class="pricing-action">
+              <a href="https://t.me/Kept_DM?text=Привет,%20хочу%20заказать%20Advanced%20System%20(от%20$180)" target="_blank" rel="noopener noreferrer" class="btn btn-block btn-outline order-action-btn" data-order-type="advanced">
+                <span data-i18n="p_btn_click">Клик для заказа</span>
+              </a>
+            </div>
+          </div>
 
-                // 4. Animation In
-                cardEl.classList.remove('slide-out');
-                cardEl.classList.add('slide-in');
+          <!-- Category 4: Desktop Utilities -->
+          <div class="pricing-card">
+            <div class="card-badge">C# / Python / Java</div>
+            <div class="pricing-header">
+              <div class="pricing-icon">💻</div>
+              <h3 class="pricing-title">Desktop Utilities</h3>
+              <p class="pricing-subtitle" data-i18n="p4_sub">Настольное программное обеспечение под Windows и Linux платформы</p>
+            </div>
+            
+            <div class="pricing-price">
+              <span class="price-from" data-i18n="price_from">от</span>
+              <span class="price-amount">$50</span>
+            </div>
 
-            }, 500); // Sync with CSS transition time
+            <ul class="pricing-features">
+              <li><span class="tick">✔</span> <span data-i18n="p4_f1">Утилиты для Windows / Linux систем</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p4_f2">Глубокая интеграция с системными API (WinAPI)</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p4_f3">Назначение глобальных горячих клавиш (hotkeys)</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p4_f4">Фоновые службы и демоны (Background Services)</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p4_f5">Графический интерфейс или CLI по выбору</span></li>
+            </ul>
 
-            resetTimer();
-        }
+            <div class="pricing-action">
+              <a href="https://t.me/Kept_DM?text=Привет,%20хочу%20заказать%20Desktop%20Utility%20(от%20$50)" target="_blank" rel="noopener noreferrer" class="btn btn-block btn-outline order-action-btn" data-order-type="desktop">
+                <span data-i18n="p_btn_click">Клик для заказа</span>
+              </a>
+            </div>
+          </div>
 
-        // Auto Rotation
-        function startTimer() {
-            autoRotateTimer = setInterval(() => {
-                switchProject('next');
-            }, 5000);
-        }
+          <!-- Category 5: Hourly Rate -->
+          <div class="pricing-card">
+            <div class="card-badge" data-i18n="p_hourly_badge">Гибкий формат</div>
+            <div class="pricing-header">
+              <div class="pricing-icon">⏱</div>
+              <h3 class="pricing-title" data-i18n="p5_title">Почасовая работа</h3>
+              <p class="pricing-subtitle" data-i18n="p5_sub">Для нестандартных задач, правок чужого кода, консультаций и настройки</p>
+            </div>
+            
+            <div class="pricing-price">
+              <span class="price-amount">$15</span>
+              <span class="price-period" data-i18n="price_per_hour">/ в час</span>
+            </div>
 
-        function resetTimer() {
-            clearInterval(autoRotateTimer);
-            startTimer();
-        }
+            <ul class="pricing-features">
+              <li><span class="tick">✔</span> <span data-i18n="p5_f1">Доработка и рефакторинг уже написанного кода</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p5_f2">Поиск и устранение багов (debugging)</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p5_f3">Настройка серверов и сетевого оборудования</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p5_f4">Технические консультации и проектирование PCB</span></li>
+              <li><span class="tick">✔</span> <span data-i18n="p5_f5">Прозрачный учет затраченного времени</span></li>
+            </ul>
 
-        // Controls
-        document.getElementById('btn-next').addEventListener('click', () => switchProject('next'));
-        document.getElementById('btn-prev').addEventListener('click', () => switchProject('prev'));
+            <div class="pricing-action">
+              <a href="https://t.me/Kept_DM?text=Привет,%20хочу%20нанять%20почасово%20($15/час)" target="_blank" rel="noopener noreferrer" class="btn btn-block btn-outline order-action-btn" data-order-type="hourly">
+                <span data-i18n="p_btn_click">Клик для заказа</span>
+              </a>
+            </div>
+          </div>
 
-        // Mobile Swipe Handling
-        let touchStartX = 0;
-        const carouselArea = document.getElementById('carousel-area');
+        </div>
+      </div>
+    </section>
 
-        carouselArea.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
+    <!-- Interactive Cost Calculator Section -->
+    <section class="section calc-section" id="calculator">
+      <div class="container">
+        <div class="glass-card calculator-card">
+          <div class="calc-header text-center">
+            <div class="section-tag" data-i18n="calc_tag">// ESTIMATOR</div>
+            <h3 class="calc-title" data-i18n="calc_title">Калькулятор ориентировочной стоимости</h3>
+            <p class="calc-desc" data-i18n="calc_desc">Выберите параметры вашего проекта, чтобы рассчитать примерную стоимость и сразу сформировать готовый бриф для Telegram.</p>
+          </div>
 
-        carouselArea.addEventListener('touchend', e => {
-            const touchEndX = e.changedTouches[0].screenX;
-            handleSwipe(touchStartX, touchEndX);
-        });
+          <div class="calc-grid">
+            <div class="calc-options">
+              <!-- Type Selection -->
+              <div class="calc-group">
+                <label class="calc-label" data-i18n="calc_label_type">Тип проекта:</label>
+                <div class="pill-group" id="project-type-pills">
+                  <button type="button" class="pill active" data-base="25" data-title="Telegram Бот (Basic)">Telegram Бот (Basic) — $25</button>
+                  <button type="button" class="pill" data-base="75" data-title="Telegram Бот (Intermediate)">Telegram Бот (Medium) — $75</button>
+                  <button type="button" class="pill" data-base="180" data-title="Сложная система / Юзербот">Парсер / Софт (Advanced) — $180</button>
+                  <button type="button" class="pill" data-base="50" data-title="Desktop Софт">Desktop Софт — $50</button>
+                  <button type="button" class="pill" data-base="30" data-title="Сервер / Сеть / PCB">Сервер / Сеть / PCB — от $30</button>
+                </div>
+              </div>
 
-        function handleSwipe(start, end) {
-            if (start - end > 50) switchProject('next'); // Swipe Left
-            if (end - start > 50) switchProject('prev'); // Swipe Right
-        }
+              <!-- Extra Features Checkboxes -->
+              <div class="calc-group">
+                <label class="calc-label" data-i18n="calc_label_extra">Дополнительные опции:</label>
+                <div class="checkbox-group">
+                  <label class="custom-checkbox">
+                    <input type="checkbox" class="feature-checkbox" data-cost="20" data-feature="База данных (PostgreSQL/SQLite)">
+                    <span class="checkmark"></span>
+                    <span class="chk-text" data-i18n="calc_opt_db">База данных (PostgreSQL/SQLite) (+ $20)</span>
+                  </label>
+                  <label class="custom-checkbox">
+                    <input type="checkbox" class="feature-checkbox" data-cost="25" data-feature="Прием платежей / крипто-оплата">
+                    <span class="checkmark"></span>
+                    <span class="chk-text" data-i18n="calc_opt_pay">Платежные шлюзы / Крипта (+ $25)</span>
+                  </label>
+                  <label class="custom-checkbox">
+                    <input type="checkbox" class="feature-checkbox" data-cost="20" data-feature="Админ-панель и статистика">
+                    <span class="checkmark"></span>
+                    <span class="chk-text" data-i18n="calc_opt_admin">Панель администратора и рассылки (+ $20)</span>
+                  </label>
+                  <label class="custom-checkbox">
+                    <input type="checkbox" class="feature-checkbox" data-cost="35" data-feature="Многопоточность / работа с прокси">
+                    <span class="checkmark"></span>
+                    <span class="chk-text" data-i18n="calc_opt_threads">Многопоточность / Прокси (+ $35)</span>
+                  </label>
+                  <label class="custom-checkbox">
+                    <input type="checkbox" class="feature-checkbox" data-cost="15" data-feature="Интеграция с Google Sheets">
+                    <span class="checkmark"></span>
+                    <span class="chk-text" data-i18n="calc_opt_sheets">Интеграция с Google Sheets (+ $15)</span>
+                  </label>
+                </div>
+              </div>
+            </div>
 
-        // Mobile Tap to Expand
-        cardEl.addEventListener('click', () => {
-            // Toggle active class for mobile specific interactions if needed
-            cardEl.classList.toggle('active-tap');
-        });
+            <!-- Total Preview & Telegram CTA -->
+            <div class="calc-result-box">
+              <div class="result-title" data-i18n="calc_res_title">Итоговая оценка</div>
+              <div class="result-price">
+                <span class="result-currency">≈ $</span>
+                <span class="result-number" id="calc-total">25</span>
+              </div>
+              <p class="result-note" data-i18n="calc_note">*Точная сумма обсуждается индивидуально после согласования ТЗ.</p>
 
-        startTimer();
+              <div class="result-summary">
+                <div class="summary-line">
+                  <span data-i18n="calc_sum_selected">Выбрано:</span>
+                  <span id="calc-summary-type" class="text-highlight">Telegram Бот (Basic)</span>
+                </div>
+                <div id="calc-summary-features" class="summary-features-list">
+                  <!-- dynamically filled -->
+                </div>
+              </div>
 
-    </script>
+              <a id="calc-telegram-btn" href="https://t.me/Kept_DM" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-block">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                </svg>
+                <span data-i18n="calc_btn_send">Отправить заявку в TG</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DM Rules & Contact Flow Section -->
+    <section class="section dm-rules-section" id="dm-rules">
+      <div class="container">
+        <div class="glass-card dm-rules-card">
+          <div class="rules-header">
+            <span class="rules-badge">📌 PROTOCOL</span>
+            <h2 class="rules-title" data-i18n="rules_title">DM Rules & Contact Flow</h2>
+            <p class="rules-subtitle" data-i18n="rules_subtitle">Обязательные правила обращения в личные сообщения для быстрого и эффективного диалога.</p>
+          </div>
+
+          <div class="rules-content">
+            <div class="rules-list">
+              
+              <div class="rule-item">
+                <div class="rule-icon">💬</div>
+                <div class="rule-text">
+                  <div class="rule-heading">
+                    <span data-i18n="rule_1_title">No Meta Questions:</span>
+                    <a href="http://NoHello.com" target="_blank" rel="noopener noreferrer" class="link-nohello font-mono">http://NoHello.com ↗</a>
+                  </div>
+                  <p data-i18n="rule_1_desc">Сразу формулируйте суть вопроса или ТЗ в первом сообщении без вводных «Привет, можно вопрос?», «Ты тут?» и т.п.</p>
+                </div>
+              </div>
+
+              <div class="rule-item">
+                <div class="rule-icon">🎯</div>
+                <div class="rule-text">
+                  <div class="rule-heading" data-i18n="rule_2_title">Main Contact:</div>
+                  <p data-i18n="rule_2_desc">Всегда пишите в первую очередь на основной аккаунт <strong class="text-highlight">@Kept_DM</strong>.</p>
+                </div>
+              </div>
+
+              <div class="rule-item">
+                <div class="rule-icon">🛡️</div>
+                <div class="rule-text">
+                  <div class="rule-heading" data-i18n="rule_3_title">Spam Policy:</div>
+                  <p data-i18n="rule_3_desc">Максимум <strong>2 сообщения подряд</strong> (Max 2 messages in a row). Пожалуйста, объединяйте мысли в одно-два емких сообщения.</p>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Danger / Restriction Warning Box -->
+            <div class="restriction-box">
+              <div class="restriction-header">
+                <span class="restriction-icon">⛔</span>
+                <span class="restriction-tag" data-i18n="restr_tag">RESTRICTION</span>
+              </div>
+              <div class="restriction-body">
+                <p data-i18n="restr_text">
+                  <strong>@Tepk_MD is STRICTLY CLOSED</strong> unless you have already sent 2 unanswered messages to <strong>@Kept_DM</strong>.
+                </p>
+                <div class="restr-warning" data-i18n="restr_warning">
+                  ⚠️ Writing to <strong>@Tepk_MD</strong> directly without trying <strong>@Kept_DM</strong> first will result in an <strong>immediate block</strong>.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Collective & Friends Section -->
+    <section class="section friends-section" id="friends">
+      <div class="container">
+        <div class="section-header text-center">
+          <div class="section-tag" data-i18n="friends_tag">// COMMUNITY & NETWORK</div>
+          <h2 class="section-title" data-i18n="friends_title">Объединение и Друзья</h2>
+          <p class="section-desc" data-i18n="friends_desc">Коллеги, друзья и сообщество, с которыми мы на связи.</p>
+        </div>
+
+        <div class="friends-grid">
+          
+          <!-- Collective Card -->
+          <div class="glass-card friend-card team-card">
+            <div class="friend-badge" data-i18n="team_badge">Объединение</div>
+            <div class="friend-avatar-box team-avatar">
+              <span>⚡</span>
+            </div>
+            <h3 class="friend-name">Citoz</h3>
+            <p class="friend-desc" data-i18n="team_desc">Команда разработчиков и технических специалистов. Создание цифровых продуктов и решений.</p>
+            <div class="friend-contacts">
+              <a href="mailto:citozteam@gmail.com" class="btn btn-sm btn-outline">
+                <span data-i18n="btn_email_click">Клик для письма ✉️</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Friend 1: Topalishro (GitHub Topalishro12) -->
+          <div class="glass-card friend-card">
+            <div class="friend-badge badge-blue" data-i18n="friend_badge">Друг</div>
+            <div class="friend-avatar-box">
+              <span>🐙</span>
+            </div>
+            <h3 class="friend-name">Topalishro</h3>
+            <p class="friend-desc" data-i18n="topalishro_desc">Разработчик и единомышленник. GitHub профиль и совместные проекты.</p>
+            <div class="friend-contacts">
+              <a href="https://github.com/Topalishro12" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-secondary">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                </svg>
+                <span data-i18n="btn_github_click">Клик на GitHub ↗</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Friend 2: Tytyty347 -->
+          <div class="glass-card friend-card">
+            <div class="friend-badge badge-blue" data-i18n="friend_badge">Друг</div>
+            <div class="friend-avatar-box">
+              <span>❄️</span>
+            </div>
+            <h3 class="friend-name">Tytyty347</h3>
+            <p class="friend-desc" data-i18n="tytyty_desc">Единомышленник и надежный контакт в Telegram-сообществе.</p>
+            <div class="friend-contacts">
+              <a href="https://t.me/Tytyty347" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-secondary">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                </svg>
+                <span data-i18n="btn_tg_click">Клик в Telegram ↗</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacts & Order Section -->
+    <section class="section contacts-section" id="contacts">
+      <div class="container">
+        <div class="contacts-card glass-card">
+          <div class="contacts-header text-center">
+            <div class="section-tag" data-i18n="contacts_tag">// СВЯЗЬ И ЗАКАЗЫ</div>
+            <h2 class="section-title" data-i18n="contacts_title">Готовы обсудить проект?</h2>
+            <p class="section-desc" data-i18n="contacts_desc">Напишите мне в личные сообщения для быстрого ответа, консультации или заказа разработки.</p>
+          </div>
+
+          <div class="contacts-methods">
+            
+            <!-- Telegram DM Primary -->
+            <a href="https://t.me/Kept_DM" target="_blank" rel="noopener noreferrer" class="contact-box highlight-box">
+              <div class="contact-icon tg-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                </svg>
+              </div>
+              <div class="contact-info">
+                <span class="contact-tag" data-i18n="c_main_tag">Основной контакт</span>
+                <span class="contact-val font-mono">@Kept_DM</span>
+                <span class="contact-action" data-i18n="c_click_dm">Клик для связи ↗</span>
+              </div>
+            </a>
+
+            <!-- Telegram Direct (Dynamic RU / EN link) -->
+            <a id="tg-direct-link" href="https://t.me/KeptRussian?direct" target="_blank" rel="noopener noreferrer" class="contact-box">
+              <div class="contact-icon tg-direct-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                </svg>
+              </div>
+              <div class="contact-info">
+                <span class="contact-tag" data-i18n="c_direct_tag">Прямой диалог</span>
+                <span class="contact-val font-mono" id="tg-direct-val">t.me/KeptRussian?direct</span>
+                <span class="contact-action" data-i18n="c_click_direct">Клик для чата ↗</span>
+              </div>
+            </a>
+
+            <!-- Email Citoz -->
+            <a href="mailto:citozteam@gmail.com" class="contact-box">
+              <div class="contact-icon mail-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <div class="contact-info">
+                <span class="contact-tag" data-i18n="c_team_tag">Почта объединения</span>
+                <span class="contact-val font-mono">citozteam@gmail.com</span>
+                <span class="contact-action" data-i18n="c_click_mail">Клик для письма ↗</span>
+              </div>
+            </a>
+
+          </div>
+
+          <!-- Quick Copy Action Bar -->
+          <div class="quick-copy-bar">
+            <span data-i18n="copy_hint">Быстрое копирование Telegram юзернейма:</span>
+            <button class="btn btn-sm btn-glass copy-btn" data-copy="Kept_DM">
+              <span class="copy-text" data-i18n="copy_btn_text">Клик скопировать @Kept_DM</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-left">
+        <span class="footer-logo">KEPT</span>
+        <div class="footer-copy-block">
+          <span class="footer-copy" data-i18n="footer_copy">© 2026. Разработка проектов & Инженерия.</span>
+          <span class="footer-collective" data-i18n="footer_team">В составе объединения <strong class="team-name">Citoz</strong> (<a href="mailto:citozteam@gmail.com" class="footer-email">citozteam@gmail.com</a>)</span>
+        </div>
+      </div>
+
+      <div class="footer-right">
+        <a href="#hero" class="back-to-top" data-i18n="footer_top">Наверх ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lightbox Modal for Main Photo -->
+  <div class="lightbox-modal" id="photo-modal" aria-hidden="true">
+    <div class="lightbox-backdrop" id="modal-backdrop"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="modal-close" aria-label="Закрыть">✕</button>
+      <img src="photo_2026-10-03_13-45-54.jpg" alt="Kept - Полноразмерное фото" class="lightbox-img">
+      <div class="lightbox-caption">
+        <strong>Kept</strong> — <span data-i18n="photo_modal_caption">Разработчик & Инженер</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-notification" id="toast">
+    <span class="toast-icon">✓</span>
+    <span class="toast-message" id="toast-message">Скопировано в буфер!</span>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
