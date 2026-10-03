@@ -341,43 +341,50 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // ==========================================
-  // 2. Region / Language Auto-Detection
+  // 2. Language Selection (English by default)
   // ==========================================
   function detectInitialLanguage() {
-    // 1. Saved choice
-    const saved = localStorage.getItem('kept_language');
-    if (saved === 'ru' || saved === 'en') return saved;
-
-    // 2. Browser language
-    const browserLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
-    const cisLangs = ['ru', 'be', 'uk', 'kk', 'uz', 'ky', 'tg'];
-    for (const prefix of cisLangs) {
-      if (browserLang.startsWith(prefix)) return 'ru';
-    }
-
-    // 3. Timezone detection for CIS regions
+    // 1. Check URL parameter (e.g. ?lang=ru or ?lang=en)
     try {
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-      const cisTimezones = ['Moscow', 'Minsk', 'Kiev', 'Almaty', 'Tashkent', 'Bishkek', 'Yekaterinburg', 'Novosibirsk', 'Samara', 'Vladivostok', 'Irkutsk'];
-      for (const city of cisTimezones) {
-        if (tz.includes(city)) return 'ru';
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlLang = urlParams.get('lang');
+      if (urlLang === 'ru' || urlLang === 'en') {
+        return urlLang;
       }
-    } catch (e) {
-      // ignore
+    } catch (e) {}
+
+    // 2. Check if user explicitly selected a language in this session
+    const saved = localStorage.getItem('kept_lang_pref_v2') || sessionStorage.getItem('kept_lang_pref_v2');
+    if (saved === 'ru' || saved === 'en') {
+      return saved;
     }
 
-    // 4. Default to EN for international audience
+    // 3. Primary default is ALWAYS English
     return 'en';
   }
 
   let currentLang = detectInitialLanguage();
 
+  function updatePillTexts() {
+    typePills.forEach(pill => {
+      const ru = pill.getAttribute('data-title-ru');
+      const en = pill.getAttribute('data-title-en');
+      const cost = pill.getAttribute('data-base');
+      if (currentLang === 'en' && en) {
+        pill.textContent = cost === '30' ? `${en} — from $30` : `${en} — $${cost}`;
+      } else if (ru) {
+        pill.textContent = cost === '30' ? `${ru} — от $30` : `${ru} — $${cost}`;
+      }
+    });
+  }
+
   function applyLanguage(lang) {
     currentLang = lang;
-    localStorage.setItem('kept_language', lang);
+    localStorage.setItem('kept_lang_pref_v2', lang);
+    sessionStorage.setItem('kept_lang_pref_v2', lang);
     document.documentElement.lang = lang;
 
-    const dict = translations[lang] || translations.ru;
+    const dict = translations[lang] || translations.en;
 
     // Update document title
     if (dict.page_title) {
@@ -430,7 +437,8 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
     });
 
-    // Re-evaluate calculator with new language text
+    // Update pill texts and calculator evaluation
+    updatePillTexts();
     updateCalculator();
   }
 
